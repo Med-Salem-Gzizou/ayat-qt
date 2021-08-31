@@ -23,6 +23,7 @@
 ```sh
 sudo apt install -y qtbase5-dev
 sudo apt install -y qtmultimedia5-dev
+sudo apt install -y qttools5-dev-tools
 ```
 
  2. Compile the code.
@@ -30,6 +31,7 @@ sudo apt install -y qtmultimedia5-dev
 cd ayat-qt/
 qmake ./
 make
+lrelease ayat-qt_ar_001.ts
 ```
 
  3. Run the software
