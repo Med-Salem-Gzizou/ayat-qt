@@ -6,6 +6,8 @@
 
 البرنامج يحتوي على العديد من التفاسير والترجمات، كذالك يمكنه قراءة النص القرآني بأصوات العديد من القراء ويحتوي أيضا على بعض القراءات المترجمة.
 
+يمكن تحميل البرنامج للويندوز من [صفحة الإصدارات](https://github.com/Med-Salem-Gzizou/ayat-qt/releases).
+
 * ayat-qt written in C++ using [Qt5](https://www.qt.io/).
 * The Qur'anic text, the translations and the interpretations used here extracted from [Ayat Software](https://quran.ksu.edu.sa/ayat/?l=en).
 * The recitations will be downloaded from [EveryAyah Quran Files](https://www.everyayah.com/index.html).
@@ -16,6 +18,12 @@
 * Search for Verses and export to CSV file.
 * 80 Audio Recitations (Include audio translations).
 * 39 Translations and interpretations (Includes translations in different languages).
+
+## Installation
+
+The application is available for Windows as a stand-alone executable that can be downloaded from the [ayat-qt repository releases page](https://github.com/Med-Salem-Gzizou/ayat-qt/releases).
+
+For Linux you need to compile the code.
 
 ## Compiling & Running (debian)
 
