@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->selectAya_spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::on_aya_spinbox_changed);
     connect(ui->selectAya_lineEdit, &QLineEdit::textEdited, this, &MainWindow::on_aya_lineEdit_changed);
     connect(ui->selectSura_lineEdit, &QLineEdit::textEdited, this, &MainWindow::on_sura_lineEdit_changed);
+    connect(ui->reciteButton, &QAbstractButton::clicked, this, &MainWindow::on_recite_button_click);
     // actions
     connect(ui->exitAct, &QAction::triggered, this, &MainWindow::close);
     connect(ui->copySelectedAct, &QAction::triggered, this, &MainWindow::copy_selected_ayat);
@@ -212,6 +213,13 @@ bool MainWindow::setAya(unsigned int sura_number, unsigned int aya_number, unsig
     return true;
 }
 
+bool MainWindow::setRecitingState(bool s){
+    if(s) this->ui->reciteButton->setText(tr("Pause"));
+    else this->ui->reciteButton->setText(tr("Recite"));
+    this->isReciting = s;
+    return true;
+}
+
 void MainWindow::save_settings() {
     QSettings settings(ORG_NAME_KEY, APP_NAME_KEY);
     qDebug("[save_setting] ...");
@@ -270,7 +278,10 @@ void MainWindow::read_selected_aya() {
 
     //play audio file
     this->ui->statusbar->showMessage(tr("Playing Audio ..."));
-    if(!this->media_player) this->media_player = new QMediaPlayer();
+    if(!this->media_player){
+        this->media_player = new QMediaPlayer();
+        connect(this->media_player, &QMediaPlayer::stateChanged, this, &MainWindow::on_MediaStateChanged);
+    }
     QMediaContent media = QMediaContent(QUrl::fromLocalFile(audioFilePath));
     this->media_player->setMedia(media);
     this->media_player->play();
@@ -357,6 +368,11 @@ void MainWindow::on_sura_lineEdit_changed(QString text){
     QList<QTableWidgetItem *> result = this->ui->suwarList_tableWidget->findItems(text, Qt::MatchContains);
     if(result.length() <= 0) return;
     this->ui->suwarList_tableWidget->setCurrentItem(result.at(0));
+}
+
+void MainWindow::on_recite_button_click(bool checked){
+    this->setRecitingState(!this->isReciting);
+    this->read_selected_aya();
 }
 
 void MainWindow::copy_selected_ayat(){
@@ -518,4 +534,16 @@ void MainWindow::on_searchTool_rowClick(int row, int column){
     int sura_number = this->ui->searchTool_tableWidget->item(row, 0)->text().toInt();
     int aya_number = this->ui->searchTool_tableWidget->item(row, 2)->text().toInt();
     this->setAya(sura_number, aya_number, this->selectedTafsirIndex);
+}
+
+void MainWindow::on_MediaStateChanged(QMediaPlayer::State state){
+    if(state == QMediaPlayer::StoppedState){
+        if(this->isReciting){
+            int ret = this->setAya(this->selectedSuraNumber, this->selectedAyaNumber + 1, this->selectedTafsirIndex);
+            if(ret) this->read_selected_aya();
+            else this->setRecitingState(false);
+        }
+    }
+    else if (state == QMediaPlayer::PlayingState) {}
+    else if (state == QMediaPlayer::PausedState) {}
 }

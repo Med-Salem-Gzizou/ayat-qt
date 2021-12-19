@@ -23,6 +23,7 @@ public:
 
 public slots:
     bool setAya(unsigned int sura_number, unsigned int aya_number, unsigned int tafsir_index);
+    bool setRecitingState(bool s);
     void loadInstalledRecitations();
     void read_selected_aya();
 
@@ -45,6 +46,7 @@ private:
     bool readAyatOnClick = false;
     bool autoAudioDownload = true;
     QString selectedRecitationDir = "Abdul_Basit_Murattal_64kbps";
+    bool isReciting = false;
     // ui stats
     QString  appLang;
     bool uiDisplaySearchTool;
@@ -60,6 +62,7 @@ private slots:
     void on_sura_spinbox_changed(int i);
     void on_aya_lineEdit_changed(QString text);
     void on_sura_lineEdit_changed(QString text);
+    void on_recite_button_click(bool checked);
     // actions
     void copy_selected_ayat();
     void export_search_result();
@@ -77,6 +80,8 @@ private slots:
     // search tool
     void on_searchTool_query(QString text);
     void on_searchTool_rowClick(int row, int column);
+    // media
+    void on_MediaStateChanged(QMediaPlayer::State state);
 
 };
 #endif // MAINWINDOW_H
