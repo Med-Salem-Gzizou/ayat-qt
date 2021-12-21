@@ -372,7 +372,9 @@ void MainWindow::on_sura_lineEdit_changed(QString text){
 
 void MainWindow::on_recite_button_click(bool checked){
     this->setAutoRecite(!this->autoRecite);
-    if(this->autoRecite && this->media_player->state() == QMediaPlayer::StoppedState) this->read_selected_aya();
+    if(this->autoRecite){
+        if (!this->media_player || this->media_player->state() == QMediaPlayer::StoppedState) this->read_selected_aya();
+    }
 }
 
 void MainWindow::copy_selected_ayat(){
