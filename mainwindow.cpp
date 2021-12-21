@@ -213,10 +213,10 @@ bool MainWindow::setAya(unsigned int sura_number, unsigned int aya_number, unsig
     return true;
 }
 
-bool MainWindow::setRecitingState(bool s){
+bool MainWindow::setAutoRecite(bool s){
     if(s) this->ui->reciteButton->setText(tr("Pause"));
     else this->ui->reciteButton->setText(tr("Recite"));
-    this->isReciting = s;
+    this->autoRecite = s;
     return true;
 }
 
@@ -371,8 +371,8 @@ void MainWindow::on_sura_lineEdit_changed(QString text){
 }
 
 void MainWindow::on_recite_button_click(bool checked){
-    this->setRecitingState(!this->isReciting);
-    this->read_selected_aya();
+    this->setAutoRecite(!this->autoRecite);
+    if(this->autoRecite && this->media_player->state() == QMediaPlayer::StoppedState) this->read_selected_aya();
 }
 
 void MainWindow::copy_selected_ayat(){
@@ -538,10 +538,10 @@ void MainWindow::on_searchTool_rowClick(int row, int column){
 
 void MainWindow::on_MediaStateChanged(QMediaPlayer::State state){
     if(state == QMediaPlayer::StoppedState){
-        if(this->isReciting){
+        if(this->autoRecite){
             int ret = this->setAya(this->selectedSuraNumber, this->selectedAyaNumber + 1, this->selectedTafsirIndex);
             if(ret) this->read_selected_aya();
-            else this->setRecitingState(false);
+            else this->setAutoRecite(false);
         }
     }
     else if (state == QMediaPlayer::PlayingState) {}

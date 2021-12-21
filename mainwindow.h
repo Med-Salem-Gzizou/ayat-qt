@@ -23,7 +23,7 @@ public:
 
 public slots:
     bool setAya(unsigned int sura_number, unsigned int aya_number, unsigned int tafsir_index);
-    bool setRecitingState(bool s);
+    bool setAutoRecite(bool s);
     void loadInstalledRecitations();
     void read_selected_aya();
 
@@ -46,7 +46,7 @@ private:
     bool readAyatOnClick = false;
     bool autoAudioDownload = true;
     QString selectedRecitationDir = "Abdul_Basit_Murattal_64kbps";
-    bool isReciting = false;
+    bool autoRecite = false;
     // ui stats
     QString  appLang;
     bool uiDisplaySearchTool;
