@@ -382,8 +382,11 @@ void MainWindow::copy_selected_ayat(){
     QString text;
     QList<QListWidgetItem *> ayat = this->ui->ayatList_listWidget->selectedItems();
     for (int i=0; i<ayat.length(); i++) {
-        text += ayat.at(i)->text() + "\n";
+        QStringList l = ayat.at(i)->text().split("} ");
+        text += l.at(1) + " " + l.at(0) +  "}" + "\n";
     }
+    text += "\n-- " + this->ui->suwarList_tableWidget->selectedItems().at(0)->text();
+
     QClipboard *clipboard = QGuiApplication::clipboard();
     clipboard->setText(text);
     this->ui->statusbar->showMessage(tr("Selected Ayat was copied"));
