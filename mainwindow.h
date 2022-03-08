@@ -56,7 +56,7 @@ private:
 
 private slots:
     void on_sura_name_click(int row, int column);
-    void on_aya_click(QListWidgetItem *item);
+    void on_aya_click( /* QListWidgetItem *item */ );
     void on_tafsir_change(int index);
     void on_aya_spinbox_changed(int i);
     void on_sura_spinbox_changed(int i);

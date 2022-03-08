@@ -41,7 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //
     connect(ui->suwarList_tableWidget, &QTableWidget::cellClicked, this, &MainWindow::on_sura_name_click);
-    connect(ui->ayatList_listWidget, &QListWidget::itemClicked, this, &MainWindow::on_aya_click);
+    connect(ui->suwarList_tableWidget, &QTableWidget::cellActivated, this, &MainWindow::on_sura_name_click);
+    connect(ui->ayatList_listWidget, &QListWidget::itemSelectionChanged, this, &MainWindow::on_aya_click);
     connect(ui->tafasirNames_comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::on_tafsir_change);
     connect(ui->selectSura_spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::on_sura_spinbox_changed);
     connect(ui->selectAya_spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::on_aya_spinbox_changed);
@@ -318,7 +319,7 @@ void MainWindow::on_sura_name_click(int row, int column) {
     this->setAya(row+1, 1, this->selectedTafsirIndex);
 }
 
-void MainWindow::on_aya_click(QListWidgetItem *item){
+void MainWindow::on_aya_click(/* QListWidgetItem *item */){
     int index = this->ui->ayatList_listWidget->currentIndex().row();
     this->setAya(this->selectedSuraNumber, index+1, this->selectedTafsirIndex);
     //Read aya
